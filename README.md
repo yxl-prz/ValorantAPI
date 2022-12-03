@@ -1,3 +1,57 @@
+# Valorant API
+This is a wrapper for "api.henrikdev.xyz" in Go.
+
+## Get Started
+```
+go get github.com/yxl-prz/ValorantAPI
+```
+### Print all Players
+```go
+res, err := ValorantAPI.GetUserMatches(ValorantAPI.SERVER_TYPE_NA, "user", "tag")
+if err != nil {
+	panic(err)
+}
+
+if res.Status == 400 {
+	return
+}
+
+fmt.Println("Players in Match:")
+for _, player := range res.Matches[0].Players.AllPlayers {
+	fmt.Printf("%v#%v | %v | Played for %v min.\n", player.Name, player.Tag, player.CurrentTierPatched, player.SessionPlaytime.Minutes)
+}
+```
+### Saving Match Data
+```go
+res, err := ValorantAPI.GetUserMatches(ValorantAPI.SERVER_TYPE_NA, "user", "tag")
+if err != nil {
+	panic(err)
+}
+
+if res.Status == 400 {
+	return
+}
+
+err = res.Save("match.json")
+if err != nil {
+	panic(err)
+}
+```
+
+### Loading Match Data
+```go
+res, err := ValorantAPI.ReadMatchesFromFile("match.json")
+if err != nil {
+	panic(err)
+}
+
+if res.Status == 400 {
+	return
+}
+
+// Here you can use res
+```
+
 ## Legal
 This project is not affiliated with Riot Games or any of its employees and therefore does not reflect the views of said parties. This is purely a fan-made API wraper made for public use.
 
